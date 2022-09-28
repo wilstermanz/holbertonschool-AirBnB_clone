@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Module contains unit tests for the BaseModel class"""
-from lib2to3.pytree import Base
 from models import base_model
 from models.base_model import BaseModel
 import unittest
