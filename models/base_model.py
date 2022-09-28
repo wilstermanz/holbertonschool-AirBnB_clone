@@ -16,13 +16,10 @@ class BaseModel:
     Public method save(self)
     Public method to_dict(self)
     """
-    def __init__(self, id=None, created_at=None, updated_at=None):
-        """
-        Instantiate public attributes
-        """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+
+    id = str(uuid.uuid4())
+    created_at = datetime.now()
+    updated_at = datetime.now()
 
     def __str__(self):
         """
