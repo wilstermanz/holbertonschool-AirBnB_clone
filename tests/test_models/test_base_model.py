@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Module contains unit tests for the BaseModel class"""
+from lib2to3.pytree import Base
 from models import base_model
 from models.base_model import BaseModel
 import unittest
@@ -31,6 +32,15 @@ class TestBaseModelDoc(unittest.TestCase):
     def test_to_dict_doc(self):
         """Checks for documentation of to_dict() method"""
         self.assertGreaterEqual(len(BaseModel.to_dict.__doc__), 1)
+
+
+class TestBaseModel(unittest.TestCase):
+    """Checks creating model"""
+    
+    def test_normal(self):
+        """Checks that an object is created"""
+        o = BaseModel()
+        self.assertIsNotNone(o)
 
 
 class TestBaseModelAttributes(unittest.TestCase):
@@ -66,8 +76,24 @@ class TestBaseModelAttributes(unittest.TestCase):
         self.assertEqual(o.my_number, 89)
 
 
-# class TestBaseModelMethods(unittest.TestCase):
-#     """Checks methods implemented in BaseModel"""
+class TestBaseModelMethods(unittest.TestCase):
+    """Checks methods implemented in BaseModel"""
 
-#     def test__init__(self):
-#         o = BaseModel()
+    def test__str__(self):
+        """Checks __str__() method"""
+        o = BaseModel()
+        self.assertEqual(o.__str__(), (f"[{o.__class__.__name__}] "
+                                       f"({o.id}) {o.__dict__}"))
+
+    def test_save(self):
+        """Checks save() method"""
+        o = BaseModel()
+        before_update = o.updated_at
+        o.save()
+        after_update = o.updated_at
+        self.assertNotEqual(before_update, after_update)
+
+    def test_to_dict(self):
+        """Checks to_dict() method"""
+        o = BaseModel()
+        self.assertIsInstance(o.to_dict(), dict)
