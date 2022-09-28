@@ -75,6 +75,28 @@ class TestBaseModelAttributes(unittest.TestCase):
         self.assertEqual(o.name, "My First Model")
         self.assertEqual(o.my_number, 89)
 
+class TestBaseModelCreateTwo(unittest.TestCase):
+    def test_create_two(self):
+        """Checks proper function when creating two BaseModels"""
+        bm1 = BaseModel()
+        bm2 = BaseModel()
+        self.assertIsInstance(bm1, BaseModel)
+        self.assertTrue(hasattr(bm1, "id"))
+        self.assertTrue(hasattr(bm1, "created_at"))
+        self.assertTrue(hasattr(bm1, "updated_at"))
+        self.assertTrue(hasattr(bm2, "id"))
+        self.assertTrue(hasattr(bm2, "created_at"))
+        self.assertTrue(hasattr(bm2, "updated_at"))
+        self.assertNotEqual(bm1.id, bm2.id)
+        self.assertNotEqual(bm1.created_at, bm2.created_at)
+        self.assertNotEqual(bm1.updated_at, bm2.updated_at)
+        self.assertIsInstance(bm1.id, str)
+        self.assertIsInstance(bm1.created_at, object)
+        self.assertIsInstance(bm1.updated_at, object)
+        self.assertIsInstance(bm2.id, str)
+        self.assertIsInstance(bm2.created_at, object)
+        self.assertIsInstance(bm2.updated_at, object)
+
 
 class TestBaseModelMethods(unittest.TestCase):
     """Checks methods implemented in BaseModel"""
