@@ -16,7 +16,7 @@ class BaseModel:
     Public method save(self)
     Public method to_dict(self)
     """
-    def __init__(self, id=None, created_at=None, uupdated_at=None):
+    def __init__(self, id=None, created_at=None, updated_at=None):
         """
         Instantiate public attributes
         """
