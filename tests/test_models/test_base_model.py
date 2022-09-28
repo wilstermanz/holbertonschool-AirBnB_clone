@@ -4,6 +4,7 @@ from lib2to3.pytree import Base
 from models import base_model
 from models.base_model import BaseModel
 import unittest
+from datetime import datetime, time
 
 
 class TestBaseModelDoc(unittest.TestCase):
@@ -60,12 +61,22 @@ class TestBaseModelAttributes(unittest.TestCase):
         o.created_at = "Now"
         self.assertEqual(o.created_at, "Now")
 
+    def test_created_at_format(self):
+        """Checks that created_at is ISO format"""
+        o = BaseModel()
+        self.assertTrue(o.created_at.fromisoformat(str(o.created_at)))
+
     def test_updated_at(self):
         """Checks BaseModel.updated_at"""
         o = BaseModel()
         self.assertIsNotNone(o.updated_at)
         o.updated_at = "Now"
         self.assertEqual(o.updated_at, "Now")
+
+    def test_created_at_format(self):
+        """Checks that updated_at is ISO format"""
+        o = BaseModel()
+        self.assertTrue(o.updated_at.fromisoformat(str(o.updated_at)))
 
     def test_new_attributes(self):
         """Checks added attributes"""
