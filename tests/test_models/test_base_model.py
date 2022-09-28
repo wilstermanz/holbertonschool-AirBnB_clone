@@ -36,7 +36,7 @@ class TestBaseModelDoc(unittest.TestCase):
 
 class TestBaseModel(unittest.TestCase):
     """Checks creating model"""
-    
+
     def test_normal(self):
         """Checks that an object is created"""
         o = BaseModel()
@@ -74,6 +74,7 @@ class TestBaseModelAttributes(unittest.TestCase):
         o.my_number = 89
         self.assertEqual(o.name, "My First Model")
         self.assertEqual(o.my_number, 89)
+
 
 class TestBaseModelCreateTwo(unittest.TestCase):
     def test_create_two(self):
