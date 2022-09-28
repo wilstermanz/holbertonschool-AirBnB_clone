@@ -82,7 +82,7 @@ class TestBaseModelCreateTwo(unittest.TestCase):
         bm1 = BaseModel()
         bm2 = BaseModel()
         self.assertIsInstance(bm1, BaseModel)
-        self.assertItInstance(bm2, BAseModel)
+        self.assertItInstance(bm2, BaseModel)
         self.assertTrue(hasattr(bm1, "id"))
         self.assertTrue(hasattr(bm1, "created_at"))
         self.assertTrue(hasattr(bm1, "updated_at"))
