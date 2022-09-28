@@ -133,5 +133,11 @@ class TestBaseModelMethods(unittest.TestCase):
         o = BaseModel()
         self.assertIsInstance(o.to_dict(), dict)
 
+    def tets_bad_dict_attribute(self):
+        """Tests adding to nonexistent key"""
+        o = BaseModel()
+        with self.assertRaises(AttributeError):
+            class_dict["FakeAttribute"] = "Something"
+
 if __name__ == '__main__':
     unittest.main()
