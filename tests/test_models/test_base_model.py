@@ -132,3 +132,6 @@ class TestBaseModelMethods(unittest.TestCase):
         """Checks to_dict() method"""
         o = BaseModel()
         self.assertIsInstance(o.to_dict(), dict)
+
+if __name__ == '__main__':
+    unittest.main()
