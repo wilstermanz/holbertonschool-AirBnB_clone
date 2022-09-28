@@ -16,6 +16,10 @@ class TestBaseModelDoc(unittest.TestCase):
         """Checks for documentation in BaseClass"""
         self.assertGreaterEqual(len(BaseModel.__doc__), 1)
 
+    def test_init_doc(self):
+        """Checks for documentation of __init__ method"""
+        self.assertGreaterEqual(len(BaseModel.__init__.__doc__), 1)
+
     def test_str_doc(self):
         """Checks for documentation of __str__ method"""
         self.assertGreaterEqual(len(BaseModel.__str__.__doc__), 1)
