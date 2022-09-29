@@ -136,7 +136,7 @@ class TestBaseModelMethods(unittest.TestCase):
         """Tests adding to nonexistent key"""
         o = BaseModel()
         with self.assertRaises(AttributeError):
-            getattr(self.o, 'FakeKey')
+            class_dict["FakeAttribute"] = "Something"
 
 if __name__ == '__main__':
     unittest.main()
