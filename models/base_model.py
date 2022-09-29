@@ -30,8 +30,8 @@ class BaseModel:
                 if key == "updated_at":
                     self.updated_at = datetime.strptime(kwargs[
                         "updated_at"], time_format)
-                if key == "id":
-                    self.id = kwargs["id"]
+                if key != ('__class__'):
+                    setattr(self, key, kwargs[key])
 
         else:
             self.id = str(uuid.uuid4())
