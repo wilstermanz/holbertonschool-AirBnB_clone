@@ -5,9 +5,22 @@ interpreter.
 """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models.engine.file_storage import FileStorage
 from models import storage
-valid_class = {'BaseModel': BaseModel}
+valid_class = {"BaseModel": BaseModel,
+               "User": User,
+               "State": State,
+               "City": City,
+               "Amenity": Amenity,
+               "Place": Place,
+               "Review": Review
+               }
 
 
 class HBNBCommand(cmd.Cmd):
@@ -80,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
                 obj_search = list_args[0] + "." + list_args[1]
                 obj_all = storage.all()
                 if obj_search in obj_all:
-                    print(obj_all[obj_search])
+                    print(str(obj_all[obj_search]))
                 else:
                     print("** no instance found **")
         else:
@@ -121,8 +134,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """
-        Prints all string representation of all instances based or not
-        on the class name.
+        Prints all string representation of all object instances
+        based on the class name given.
+        If no class name is given, prints all object instances.
         The printed result will be a list of strings
         If the class name doesn't exist, prints:
             ** class doesn't exist **
@@ -134,7 +148,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             for key, value in storage.all().items():
-                if args == value.__class__.__name__:
+                key_arg = key.split(".")
+                if args == key_arg[0]:
                     print([str(storage.all()[key])])
 
     def do_update(self, args):
@@ -142,6 +157,25 @@ class HBNBCommand(cmd.Cmd):
         Updates an instance based on the class name and id by adding or
         updating attribute(saved to the JSON file)
         """
+        list_args = args.split(" ")
+        if len(args) < 1:
+            print("** class name missing **")
+        elif len(list_args) < 2:
+            print("** instance id missing **")
+        elif len(list_args) < 3:
+            print("** attribute name missing **")
+        elif len(list_args) < 4:
+            print("** value missing **")
+        elif list_args[0] not in valid_class.keys():
+            print("** class doesn't exist **")
+        else:
+            obj_search = list_args[0] + "." + list_args[1]
+            obj_all = storage.all()
+            if obj_search in obj_all:
+                setattr(obj_all[obj_search], list_args[2],
+                        list_args[3].strip('\'"'))
+            else:
+                print("** no instance found **")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
