@@ -9,10 +9,8 @@ class FileStorage:
     and deserializes JSON file to instances
     """
 
-    def __init__(self):
-        """Initializes new instances"""
-        self.__file_path = "file.json"
-        self.__objects = {}
+    __file_path = "file.json"
+    __objects = {}
 
     def all(self):
         """Returns the __objects dictionary"""
@@ -24,7 +22,6 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file"""
-        print(self.__objects)
         with open(self.__file_path, 'w', encoding='utf-8') as file:
             file.write(json.dumps(self.__objects))
 
@@ -39,4 +36,6 @@ class FileStorage:
             with open(self.__file_path, 'r', encoding='utf-8') as file:
                 self.__objects = json.loads(file.read())
         except FileNotFoundError:
+            pass
+        except json.decoder.JSONDecodeError:
             pass

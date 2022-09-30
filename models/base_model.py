@@ -52,6 +52,7 @@ class BaseModel:
         with the current datetime
         """
         self.updated_at = datetime.now()
+        storage.new(self)
         storage.save()
 
     def to_dict(self):
@@ -61,6 +62,6 @@ class BaseModel:
         """
         class_dict = self.__dict__.copy()
         class_dict["__class__"] = self.__class__.__name__
-        class_dict["created_at"] = str(self.created_at.isoformat())
-        class_dict["updated_at"] = str(self.updated_at.isoformat())
+        class_dict["created_at"] = self.created_at.isoformat()
+        class_dict["updated_at"] = self.updated_at.isoformat()
         return class_dict
