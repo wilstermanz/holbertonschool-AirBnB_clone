@@ -23,13 +23,15 @@ class BaseModel:
         Instantiate public attributes
         """
         if kwargs:
-            for key in kwargs:
+            for key in kwargs.keys():
                 if key == "created_at":
                     self.created_at = datetime.strptime(kwargs[
                         "created_at"], time_format)
+                    continue
                 if key == "updated_at":
                     self.updated_at = datetime.strptime(kwargs[
                         "updated_at"], time_format)
+                    continue
                 if key != ('__class__'):
                     setattr(self, key, kwargs[key])
 
