@@ -4,7 +4,7 @@ base_model module for the AirBnB console project
 """
 from datetime import datetime, time
 import uuid
-from models import storage
+import models
 time_format = "%Y-%m-%dT%H:%M:%S.%f"
 
 
@@ -37,14 +37,15 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
         """
         Override the string to print [<class name>] (<self.id>) <self.__dict__>
         """
         return "[{}] ({}) {}".format(__class__.__name__,
-                                     self.id, self.__dict__)
+                                     self.id,
+                                     self.__dict__)
 
     def save(self):
         """
@@ -52,8 +53,7 @@ class BaseModel:
         with the current datetime
         """
         self.updated_at = datetime.now()
-        storage.new(self)
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """
@@ -62,6 +62,8 @@ class BaseModel:
         """
         class_dict = self.__dict__.copy()
         class_dict["__class__"] = self.__class__.__name__
-        class_dict["created_at"] = self.created_at.isoformat()
-        class_dict["updated_at"] = self.updated_at.isoformat()
+        if type(class_dict["created_at"]) is not str:
+            class_dict["created_at"] = self.created_at.isoformat()
+        if type(class_dict["updated_at"]) is not str:
+            class_dict["updated_at"] = self.updated_at.isoformat()
         return class_dict
