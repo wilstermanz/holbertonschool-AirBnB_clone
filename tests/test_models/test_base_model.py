@@ -119,14 +119,6 @@ class TestBaseModelMethods(unittest.TestCase):
         self.assertEqual(o.__str__(), (f"[{o.__class__.__name__}] "
                                        f"({o.id}) {o.__dict__}"))
 
-    def test_save(self):
-        """Checks save() method"""
-        o = BaseModel()
-        before_update = o.updated_at
-        o.save()
-        after_update = o.updated_at
-        self.assertNotEqual(before_update, after_update)
-
     def test_to_dict(self):
         """Checks to_dict() method"""
         o = BaseModel()
@@ -135,8 +127,10 @@ class TestBaseModelMethods(unittest.TestCase):
     def tets_bad_dict_attribute(self):
         """Tests adding to nonexistent key"""
         o = BaseModel()
+        class_dict = {}
         with self.assertRaises(AttributeError):
             class_dict["FakeAttribute"] = "Something"
+
 
 if __name__ == '__main__':
     unittest.main()

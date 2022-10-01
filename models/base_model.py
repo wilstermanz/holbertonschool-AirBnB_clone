@@ -25,14 +25,13 @@ class BaseModel:
         if kwargs:
             for key in kwargs.keys():
                 if key == "created_at":
-                    self.created_at = datetime.strptime(kwargs[
-                        "created_at"], time_format)
+                    setattr(self, key,
+                            datetime.strptime(kwargs[key], time_format))
+                elif key == "updated_at":
+                    setattr(self, key,
+                            datetime.strptime(kwargs[key], time_format))
                     continue
-                if key == "updated_at":
-                    self.updated_at = datetime.strptime(kwargs[
-                        "updated_at"], time_format)
-                    continue
-                if key != ('__class__'):
+                elif key != ('__class__'):
                     setattr(self, key, kwargs[key])
 
         else:
@@ -64,8 +63,6 @@ class BaseModel:
         """
         class_dict = self.__dict__.copy()
         class_dict["__class__"] = self.__class__.__name__
-        if type(class_dict["created_at"]) is not str:
-            class_dict["created_at"] = self.created_at.isoformat()
-        if type(class_dict["updated_at"]) is not str:
-            class_dict["updated_at"] = self.updated_at.isoformat()
+        class_dict["created_at"] = self.created_at.isoformat()
+        class_dict["updated_at"] = self.updated_at.isoformat()
         return class_dict
