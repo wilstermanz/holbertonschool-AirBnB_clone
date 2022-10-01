@@ -44,7 +44,7 @@ class BaseModel:
         """
         Override the string to print [<class name>] (<self.id>) <self.__dict__>
         """
-        return "[{}] ({}) {}".format(__class__.__name__,
+        return "[{}] ({}) {}".format(self.__class__.__name__,
                                      self.id,
                                      self.__dict__)
 
