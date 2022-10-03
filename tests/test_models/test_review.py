@@ -10,8 +10,8 @@ class TestAmenityDoc(unittest.TestCase):
 
     def test_module_doc(self):
         """Checks for module doc"""
-        self.assertGreaterEqual(models.review.__doc__, 1)
+        self.assertGreaterEqual(len(models.review.__doc__), 1)
 
     def test_class_doc(self):
         """Checks for class doc"""
-        self.assertGreaterEqual(Review.__doc__, 1)
+        self.assertGreaterEqual(len(Review.__doc__), 1)
