@@ -50,7 +50,7 @@ Example: Create a new BaseModel<br>
 
 # Commands
 
-## help -- shows help
+## help: Shows help
 ### Usage:
 For a list of built-in commands:<br>
 ```
