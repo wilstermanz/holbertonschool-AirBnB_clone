@@ -20,6 +20,11 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
+    @classmethod
+    def destroy_all(cls):
+        """Destroys all existing instances of BaseModel and it's children"""
+        cls.__objects = {}
+
     def all(self):
         """Returns the __objects dictionary"""
         return self.__objects

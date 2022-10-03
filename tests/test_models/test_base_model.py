@@ -4,6 +4,7 @@ from models import base_model
 from models import storage
 from models.base_model import BaseModel
 import unittest
+import os
 from datetime import datetime, time
 import pep8
 
@@ -61,12 +62,12 @@ class TestBaseModel(unittest.TestCase):
     def setUp(self):
         """setUp method"""
         self.obj1 = BaseModel()
+        self.obj1.save()
 
     def tearDown(self):
         """tearDown method"""
         del self.obj1
-        storage.__objects = {}
-        storage.save()
+        os.remove("file.json")
 
     def test_normal(self):
         """Checks that an object is created"""
@@ -79,12 +80,12 @@ class TestBaseModelAttributes(unittest.TestCase):
     def setUp(self):
         """setUp method"""
         self.obj1 = BaseModel()
+        self.obj1.save()
 
     def tearDown(self):
         """tearDown method"""
         del self.obj1
-        storage.__objects = {}
-        storage.save()
+        os.remove("file.json")
 
     def test_id(self):
         """Checks BaseModel.id"""
@@ -116,13 +117,14 @@ class TestBaseModelCreateTwo(unittest.TestCase):
         """setUp method"""
         self.bm1 = BaseModel()
         self.bm2 = BaseModel()
+        self.bm1.save()
+        self.bm2.save()
 
     def tearDown(self):
         """tearDown method"""
         del self.bm1
         del self.bm2
-        storage.__objects = {}
-        storage.save()
+        os.remove("file.json")
 
     def test_create_two(self):
         """Checks proper function when creating two BaseModels"""
@@ -151,12 +153,12 @@ class TestBaseModelMethods(unittest.TestCase):
     def setUp(self):
         """setUp method"""
         self.obj1 = BaseModel()
+        self.obj1.save()
 
     def tearDown(self):
         """tearDown method"""
         del self.obj1
-        storage.__objects = {}
-        storage.save()
+        os.remove("file.json")
 
     def test_save(self):
         """Checks save method"""
@@ -171,13 +173,14 @@ class TestBaseModelMethods(unittest.TestCase):
 
     def test_to_dict(self):
         """Checks to_dict() method"""
-        self.assertIsInstance(self.obj1.to_dict(), dict)
+        my_dict = self.obj1.to_dict()
+        self.assertIsInstance(my_dict, dict)
+        self.assertIsInstance(my_dict["created_at"], str)
 
-    def tets_bad_dict_attribute(self):
-        """Tests adding to nonexistent key"""
-        class_dict = {}
-        with self.assertRaises(AttributeError):
-            class_dict["FakeAttribute"] = "Something"
+    def test_create(self):
+        obj2 = BaseModel(hello=0)
+        self.assertEqual(getattr(obj2, "hello"), 0)
+        del obj2
 
 
 if __name__ == '__main__':
