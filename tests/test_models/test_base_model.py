@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Module contains unit tests for the BaseModel class"""
 from models import base_model
+from models import storage
 from models.base_model import BaseModel
 import unittest
 from datetime import datetime, time
@@ -37,96 +38,123 @@ class TestBaseModelDoc(unittest.TestCase):
 class TestBaseModel(unittest.TestCase):
     """Checks creating model"""
 
+    def setUp(self):
+        """setUp method"""
+        self.obj1 = BaseModel()
+
+    def tearDown(self):
+        """tearDown method"""
+        del self.obj1
+        storage.__objects = {}
+        storage.save()
+
     def test_normal(self):
         """Checks that an object is created"""
-        o = BaseModel()
-        self.assertIsNotNone(o)
+        self.assertIsNotNone(self.obj1)
 
 
 class TestBaseModelAttributes(unittest.TestCase):
     """Checks attributes in BaseModel"""
 
+    def setUp(self):
+        """setUp method"""
+        self.obj1 = BaseModel()
+
+    def tearDown(self):
+        """tearDown method"""
+        del self.obj1
+        storage.__objects = {}
+        storage.save()
+
     def test_id(self):
         """Checks BaseModel.id"""
-        o = BaseModel()
-        self.assertIsNotNone(o.id)
-        o.id = 5
-        self.assertEqual(o.id, 5)
-
-    def test_created_at(self):
-        """Checks BaseModel.created_at"""
-        o = BaseModel()
-        self.assertIsNotNone(o.created_at)
-        o.created_at = "Now"
-        self.assertEqual(o.created_at, "Now")
+        self.assertIsNotNone(self.obj1.id)
+        self.obj1.id = 5
+        self.assertEqual(self.obj1.id, 5)
 
     def test_created_at_format(self):
         """Checks that created_at is ISO format"""
-        o = BaseModel()
-        self.assertTrue(o.created_at.fromisoformat(str(o.created_at)))
-
-    def test_updated_at(self):
-        """Checks BaseModel.updated_at"""
-        o = BaseModel()
-        self.assertIsNotNone(o.updated_at)
-        o.updated_at = "Now"
-        self.assertEqual(o.updated_at, "Now")
+        self.assertTrue(self.obj1.created_at.fromisoformat(
+            str(self.obj1.created_at)))
 
     def test_created_at_format(self):
         """Checks that updated_at is ISO format"""
-        o = BaseModel()
-        self.assertTrue(o.updated_at.fromisoformat(str(o.updated_at)))
+        self.assertTrue(self.obj1.updated_at.fromisoformat(
+            str(self.obj1.updated_at)))
 
     def test_new_attributes(self):
         """Checks added attributes"""
-        o = BaseModel()
-        o.name = "My First Model"
-        o.my_number = 89
-        self.assertEqual(o.name, "My First Model")
-        self.assertEqual(o.my_number, 89)
+        self.obj1.name = "My First Model"
+        self.obj1.my_number = 89
+        self.assertEqual(self.obj1.name, "My First Model")
+        self.assertEqual(self.obj1.my_number, 89)
 
 
 class TestBaseModelCreateTwo(unittest.TestCase):
+
+    def setUp(self):
+        """setUp method"""
+        self.bm1 = BaseModel()
+        self.bm2 = BaseModel()
+
+    def tearDown(self):
+        """tearDown method"""
+        del self.bm1
+        del self.bm2
+        storage.__objects = {}
+        storage.save()
+
     def test_create_two(self):
         """Checks proper function when creating two BaseModels"""
-        bm1 = BaseModel()
-        bm2 = BaseModel()
-        self.assertIsInstance(bm1, BaseModel)
-        self.assertIsInstance(bm2, BaseModel)
-        self.assertTrue(hasattr(bm1, "id"))
-        self.assertTrue(hasattr(bm1, "created_at"))
-        self.assertTrue(hasattr(bm1, "updated_at"))
-        self.assertTrue(hasattr(bm2, "id"))
-        self.assertTrue(hasattr(bm2, "created_at"))
-        self.assertTrue(hasattr(bm2, "updated_at"))
-        self.assertNotEqual(bm1.id, bm2.id)
-        self.assertNotEqual(bm1.created_at, bm2.created_at)
-        self.assertNotEqual(bm1.updated_at, bm2.updated_at)
-        self.assertIsInstance(bm1.id, str)
-        self.assertIsInstance(bm1.created_at, object)
-        self.assertIsInstance(bm1.updated_at, object)
-        self.assertIsInstance(bm2.id, str)
-        self.assertIsInstance(bm2.created_at, object)
-        self.assertIsInstance(bm2.updated_at, object)
+        self.assertIsInstance(self.bm1, BaseModel)
+        self.assertIsInstance(self.bm1, BaseModel)
+        self.assertTrue(hasattr(self.bm1, "id"))
+        self.assertTrue(hasattr(self.bm1, "created_at"))
+        self.assertTrue(hasattr(self.bm1, "updated_at"))
+        self.assertTrue(hasattr(self.bm1, "id"))
+        self.assertTrue(hasattr(self.bm1, "created_at"))
+        self.assertTrue(hasattr(self.bm1, "updated_at"))
+        self.assertNotEqual(self.bm1.id, self.bm2.id)
+        self.assertNotEqual(self.bm1.created_at, self.bm2.created_at)
+        self.assertNotEqual(self.bm1.updated_at, self.bm2.updated_at)
+        self.assertIsInstance(self.bm1.id, str)
+        self.assertIsInstance(self.bm1.created_at, object)
+        self.assertIsInstance(self.bm1.updated_at, object)
+        self.assertIsInstance(self.bm2.id, str)
+        self.assertIsInstance(self.bm2.created_at, object)
+        self.assertIsInstance(self.bm2.updated_at, object)
 
 
 class TestBaseModelMethods(unittest.TestCase):
     """Checks methods implemented in BaseModel"""
 
+    def setUp(self):
+        """setUp method"""
+        self.obj1 = BaseModel()
+
+    def tearDown(self):
+        """tearDown method"""
+        del self.obj1
+        storage.__objects = {}
+        storage.save()
+
+    def test_save(self):
+        """Checks save method"""
+        self.obj1.save()
+        self.assertNotEqual(self.obj1.created_at, self.obj1.updated_at)
+
     def test__str__(self):
         """Checks __str__() method"""
-        o = BaseModel()
-        self.assertEqual(o.__str__(), (f"[{o.__class__.__name__}] "
-                                       f"({o.id}) {o.__dict__}"))
+        self.assertEqual(self.obj1.__str__(), (
+                            f"[{self.obj1.__class__.__name__}] "
+                            f"({self.obj1.id}) {self.obj1.__dict__}"))
 
     def test_to_dict(self):
         """Checks to_dict() method"""
-        o = BaseModel()
-        self.assertIsInstance(o.to_dict(), dict)
+        self.assertIsInstance(self.obj1.to_dict(), dict)
 
     def tets_bad_dict_attribute(self):
         """Tests adding to nonexistent key"""
-        o = BaseModel()
         class_dict = {}
         with self.assertRaises(AttributeError):
             class_dict["FakeAttribute"] = "Something"
