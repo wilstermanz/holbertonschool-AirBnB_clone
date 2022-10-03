@@ -153,12 +153,6 @@ class TestBaseModelMethods(unittest.TestCase):
         """Checks to_dict() method"""
         self.assertIsInstance(self.obj1.to_dict(), dict)
 
-    def tets_bad_dict_attribute(self):
-        """Tests adding to nonexistent key"""
-        class_dict = {}
-        with self.assertRaises(AttributeError):
-            class_dict["FakeAttribute"] = "Something"
-
 
 if __name__ == '__main__':
     unittest.main()
