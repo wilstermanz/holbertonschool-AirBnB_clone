@@ -30,7 +30,6 @@ class BaseModel:
                 elif key == "updated_at":
                     setattr(self, key,
                             datetime.strptime(kwargs[key], time_format))
-                    continue
                 elif key != ('__class__'):
                     setattr(self, key, kwargs[key])
 
