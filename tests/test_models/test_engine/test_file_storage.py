@@ -1,11 +1,9 @@
 #!/usr/bin/python3
-import models
 from models import storage
 from models.base_model import BaseModel
 from models.engine import file_storage
 from models.engine.file_storage import FileStorage
 import unittest
-import json
 import pep8
 import os
 

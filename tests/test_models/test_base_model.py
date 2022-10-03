@@ -5,7 +5,6 @@ from models import storage
 from models.base_model import BaseModel
 import unittest
 import os
-from datetime import datetime, time
 import pep8
 
 
@@ -50,8 +49,8 @@ class TestBaseModelPep8(unittest.TestCase):
     def test_pep8_compliance(self):
         """Tests to ensure tests/test_models/base_model.py is pep8 compliant"""
         pep8style = pep8.StyleGuide(quiet=True)
-        result = pep8style.check_files(["tests/test_models\
-                                       /test_base_model.py"])
+        result = pep8style.check_files([("tests/test_models"
+                                       "/test_base_model.py")])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
